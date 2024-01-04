@@ -10,6 +10,7 @@ use GuzzleHttp\Pool;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
+use GuzzleHttp\Promise; 
 
 /**
  * Mixin for common functionalities used by most Filestack objects
@@ -464,7 +465,7 @@ trait CommonMixin
 
     protected function settlePromises($promises)
     {
-        $api_results = \GuzzleHttp\Promise\settle($promises)->wait();
+        $api_results = Promise\Utils::settle($promises)->wait();
         return $api_results;
     }
 }

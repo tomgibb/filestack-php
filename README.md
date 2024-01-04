@@ -1,21 +1,14 @@
-<p align="center"><img src="logo.svg" align="center" width="100"/></p>
-<h1 align="center">Filestack PHP</h1>
-<p align="center">
-  <a href="http://travis-ci.org/filestack/filestack-php">
-    <img src="https://img.shields.io/travis/filestack/filestack-php.svg">
-  </a>
-  <a href="https://coveralls.io/github/filestack/filestack-php?branch=master">
-    <img src="https://coveralls.io/repos/github/filestack/filestack-php/badge.svg?branch=master">
-  </a>
-   <a href="https://codeclimate.com/github/filestack/filestack-php">
-    <img src="https://codeclimate.com/github/filestack/filestack-php/badges/gpa.svg">
-  </a>
-</p>
+[![Travis_ci Status](https://api.travis-ci.org/filestack/filestack-php.svg?branch=master)](https://travis-ci.org/filestack/filestack-php)
+[![Coverage Status](https://coveralls.io/repos/github/filestack/filestack-php/badge.svg?branch=master)](https://coveralls.io/github/filestack/filestack-php?branch=master)
+[![CodeClimate Status](https://codeclimate.com/github/filestack/filestack-php/badges/gpa.svg)](https://codeclimate.com/github/filestack/filestack-php)
+
+# Filestack PHP SDK
+<a href="https://www.filestack.com"><img src="https://filestack.com/themes/filestack/assets/images/press-articles/color.svg" align="left" hspace="10" vspace="6"></a>
 This is the official PHP SDK for Filestack - API and content management system that makes it easy to add powerful file uploading and transformation capabilities to any web or mobile application.
 
 ## Requirements
 
-* PHP 7.3+
+* PHP 5.6+
 
 ## Resources
 
@@ -27,6 +20,16 @@ This is the official PHP SDK for Filestack - API and content management system t
 Install ``filestack`` with composer, either run
 
     $ composer require --prefer-dist filestack/filestack-php
+
+or add
+
+```
+"filestack/filestack-php": ">=1.1.11"
+```
+
+or download from GitHub
+
+    https://github.com/filestack/filestack-php.git
 
 ## Usage
 
@@ -54,11 +57,10 @@ $filelink = $client->upload('/path/to/file');
 ```
 
 ### Storage
-
 Amazon S3 is used to store your files by default. If you wish to use a different one, you can pass in additional parameter 'location' when making upload() and store calls
 
 ```php
-$client = new FilestackClient('YOUR_API_KEY');
+$client = FilestackClient('YOUR_API_KEY');
 $extras = [
     'Location' => 'dropbox',
     'Filename' => 'somefilename.jpg',
@@ -85,7 +87,7 @@ $filelink2 = $client->overwrite('/path/to/file', $filelink->handle);
 
 Filelink objects can be created in two ways:
 
- - by uploading a file using FilestackClient
+ - by uploading a file with using FilestackClient
  - by initializing Filelink with file handle and api_key
 
 First method was shown above, the second method is also very easy and will create objects representing files that were already uploaded.
@@ -93,7 +95,7 @@ First method was shown above, the second method is also very easy and will creat
 ```php
 use Filestack\filelink;
 
-$filelink = new Filelink('some-file-handle', 'YOUR_API_KEY');
+$file = new Filelink('some-file-handle', 'YOUR_API_KEY');
 
 # transforming an image
 $transformed_filelink = $filelink
@@ -188,7 +190,7 @@ vendor/bin/phpunit
 - To generate coverage report, run following command (will generage html files under
 directory coverage/)
 ```
-vendor/bin/phpunit --coverage-xml=coverage
+vendor/bin/phpunit --coverage-html=coverage
 ```
 
 - To run PHPMD for CodeClimate checks
@@ -199,17 +201,8 @@ vendor/bin/phpmd tests xml phpmd-rules.xml > logs/phpmd-report-tests.xml
 
 ## Generating documentation
 
-To get project metrics use phar file for https://github.com/sebastianbergmann/phploc
-
-```
-./phploc.phar --log-xml=phploc.xml .
-```
-
-To generate documentation use phar file from https://github.com/theseer/phpdox
-
-```
-./phpdox.phar
-```
+vendor/bin/phploc --log-xml=phploc.xml filestack
+vendor/bin/phpdox
 
 ## Issues
 

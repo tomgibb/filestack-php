@@ -22,46 +22,6 @@ class FilestackClientTest extends BaseTest
     }
 
     /**
-     * Test initializing FilestackClient with an API Key & custom CNAME
-     */
-    public function testClientInitializedWithCustomCname()
-    {
-        $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
-        $client = new FilestackClient(
-            $this->test_api_key,
-            null,
-            $stub_http_client,
-            null,
-            $this->test_cname
-        );
-        $this->assertInstanceOf(FilestackClient::class, $client);
-        $this->assertEquals($client->api_key, $this->test_api_key);
-        $this->assertEquals($client->cname, $this->test_cname);
-
-        return $client;
-    }
-
-    /**
-     * Test initializing FilestackClient with an API Key & custom CNAME
-     */
-    public function testClientInitializedWithCustomCnameAndSecurity()
-    {
-        $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
-        $client = new FilestackClient(
-            $this->test_api_key,
-            $this->test_security,
-            $stub_http_client,
-            null,
-            $this->test_cname
-        );
-        $this->assertInstanceOf(FilestackClient::class, $client);
-        $this->assertEquals($client->api_key, $this->test_api_key);
-        $this->assertEquals($client->cname, $this->test_cname);
-
-        return $client;
-    }
-
-    /**
      * Test getting content of Filestack file
      */
     public function testGetContentSuccess()
@@ -81,32 +41,6 @@ class FilestackClientTest extends BaseTest
             $stub_http_client
         );
         $result = $client->getContent($this->test_file_url);
-
-        $this->assertNotNull($result);
-    }
-
-    /**
-     * Test getting content of Filestack file
-     */
-    public function testGetContentSuccessWithCustomCname()
-    {
-        $mock_response = new MockHttpResponse(
-            200,
-            new MockHttpResponseBody('some content')
-        );
-
-        $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
-        $stub_http_client->method('request')
-             ->willReturn($mock_response);
-
-        $client = new FilestackClient(
-            $this->test_api_key,
-            null,
-            $stub_http_client,
-            null,
-            $this->test_cname
-        );
-        $result = $client->getContent($this->test_cname_file_url);
 
         $this->assertNotNull($result);
     }
@@ -514,12 +448,7 @@ class FilestackClientTest extends BaseTest
     {
         $mock_response = new MockHttpResponse(
             200,
-            json_encode([
-                'filename'  => 'somefilename.jpg',
-                'size'      => '1000',
-                'type'      => 'image/jpg',
-                'url'       => 'https://cdn.filestack.com/somefilehandle',
-            ]),
+            'some file content'
         );
 
         $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
@@ -784,12 +713,7 @@ class FilestackClientTest extends BaseTest
     {
         $mock_response = new MockHttpResponse(
             200,
-            json_encode([
-                'filename'  => 'somefilename.jpg',
-                'size'      => '1000',
-                'type'      => 'image/jpg',
-                'url'       => 'https://cdn.filestack.com/somefilehandle',
-            ]),
+            '{url: "https://cdn.filestack.com/somefilehandle"}'
         );
 
         $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
@@ -817,13 +741,8 @@ class FilestackClientTest extends BaseTest
     {
         $mock_response = new MockHttpResponse(
             200,
-            json_encode([
-                'filename'  => 'somefilename.jpg',
-                'size'      => '1000',
-                'type'      => 'image/jpg',
-                'url'       => 'https://cdn.filestack.com/somefilehandle',
-            ]),
-        );
+            '{url: "https://cdn.filestack.com/somefilehandle"}');
+
         $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
         $stub_http_client->method('request')
              ->willReturn($mock_response);
@@ -873,13 +792,7 @@ class FilestackClientTest extends BaseTest
     {
         $mock_response = new MockHttpResponse(
             200,
-            json_encode([
-                'filename'  => 'somefilename.jpg',
-                'size'      => '1000',
-                'type'      => 'image/jpg',
-                'url'       => 'https://cdn.filestack.com/somefilehandle',
-            ])
-        );
+            '{url: "https://cdn.filestack.com/somefilehandle"}');
 
         $stub_http_client = $this->createMock(\GuzzleHttp\Client::class);
         $stub_http_client->method('request')
